@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Michael Sillyman, Data Analyst: four projects in SQL, LibreOffice Calc, Stata, SPSS and EViews.">
+<meta name="author" content="Michael Sillyman">
+<title>Michael Sillyman | Data Analyst Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; each project is a two-part band (story left, report sheet right), stacking on phones.
+   Identity borrows the reports' own teal + coral so the page and the PDFs read as one body of work. */
+:root {
+  --bg: #F4F7F7;
+  --surface: #FFFFFF;
+  --ink: #13252A;
+  --muted: #56686C;
+  --line: #D8E2E3;
+  --teal: #1F4E5A;
+  --teal-soft: #E3EEF0;
+  --coral: #C4552E;
+  --code-bg: #EEF3F4;
+  --shadow: 0 1px 2px rgba(19, 37, 42, .06), 0 8px 24px rgba(19, 37, 42, .08);
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E191C; --surface: #15242A; --ink: #E2EBED; --muted: #9AAEB2; --line: #26393F;
+    --teal: #7FC0CE; --teal-soft: #1B3138; --coral: #EE8A62; --code-bg: #112025;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E191C; --surface: #15242A; --ink: #E2EBED; --muted: #9AAEB2; --line: #26393F;
+  --teal: #7FC0CE; --teal-soft: #1B3138; --coral: #EE8A62; --code-bg: #112025;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.12; }
+p { margin: 0; }
+a { color: var(--teal); }
+:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; border-radius: 4px; }
+.mono { font-family: var(--mono); }
+
+/* ---------- Header ---------- */
+header.top { padding-block: clamp(40px, 7vw, 80px) 28px; border-bottom: 1px solid var(--line); }
+.top-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+.eyebrow {
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 14px;
+}
+h1 { font-size: clamp(38px, 6.4vw, 64px); font-weight: 700; letter-spacing: -.02em; }
+.lede { margin-top: 18px; font-size: 18px; color: var(--muted); max-width: 58ch; }
+.toolkit { display: grid; gap: 10px; }
+.toolkit h2 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.tool {
+  font-family: var(--mono); font-size: 13px; padding: 5px 10px; border-radius: 6px;
+  background: var(--teal-soft); color: var(--teal); border: 1px solid transparent;
+}
+
+/* ---------- Index ---------- */
+nav.index { padding-block: 22px; }
+.index ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.index a {
+  display: grid; gap: 4px; padding: 12px 14px; height: 100%;
+  text-decoration: none; color: var(--ink); border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+  transition: border-color .15s ease, transform .15s ease;
+}
+.index a:hover { border-color: var(--teal); transform: translateY(-1px); }
+.index .num { font-family: var(--mono); font-size: 12px; color: var(--coral); }
+.index .nm { font-weight: 600; font-size: 15px; line-height: 1.3; }
+.index .tl { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* ---------- Projects ---------- */
+section.project { padding-block: 44px; border-top: 1px solid var(--line); scroll-margin-top: 12px; }
+.proj-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 44px; align-items: start; }
+.story { display: grid; gap: 22px; min-width: 0; }
+.label {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
+  font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+  padding-bottom: 10px; border-bottom: 1px dashed var(--line);
+}
+.label b { color: var(--coral); font-weight: 500; }
+h2.pt { font-size: clamp(28px, 3.6vw, 38px); font-weight: 700; letter-spacing: -.015em; }
+.question { font-size: 18px; max-width: 60ch; }
+.question span { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
+
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-block: 1px solid var(--line); }
+.stat { padding: 14px 14px 14px 0; display: grid; gap: 2px; }
+.stat + .stat { padding-left: 14px; border-left: 1px solid var(--line); }
+.stat .v { font-family: var(--display); font-size: clamp(24px, 3vw, 30px); font-weight: 700; color: var(--teal); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.stat .k { font-size: 13.5px; color: var(--muted); line-height: 1.35; }
+
+h3 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.steps { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 62ch; }
+.steps li::marker { font-family: var(--mono); color: var(--coral); font-size: 13px; }
+.findings { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; max-width: 62ch; }
+.findings li { padding-left: 16px; position: relative; }
+.findings li::before { content: ""; position: absolute; left: 0; top: .62em; width: 7px; height: 7px; border-radius: 2px; background: var(--coral); }
+.findings strong { font-weight: 600; }
+
+details.code { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+details.code summary {
+  cursor: pointer; padding: 11px 14px; font-family: var(--mono); font-size: 13px; color: var(--teal);
+  list-style: none; display: flex; justify-content: space-between; gap: 12px;
+}
+details.code summary::-webkit-details-marker { display: none; }
+details.code summary::after { content: "+"; color: var(--muted); }
+details.code[open] summary::after { content: "−"; }
+details.code pre {
+  margin: 0; padding: 14px; overflow-x: auto; background: var(--code-bg);
+  border-top: 1px solid var(--line); border-radius: 0 0 10px 10px;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.55; color: var(--ink);
+}
+.cm { color: var(--muted); }
+
+/* Report sheet */
+.sheet { display: grid; gap: 10px; min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+.sheet button {
+  all: unset; cursor: zoom-in; display: block; border-radius: 6px; overflow: hidden;
+  box-shadow: var(--shadow); border: 1px solid var(--line); background: #FFFFFF;
+  transition: transform .2s ease;
+}
+.sheet button:hover { transform: translateY(-2px); }
+.sheet button:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+.sheet img { display: block; width: 100%; height: auto; max-width: 100%; }
+.sheet .cap { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+.downloads { display: flex; flex-wrap: wrap; gap: 8px; }
+.dl {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px;
+  font-family: var(--mono); font-size: 13px; text-decoration: none;
+  border: 1px solid var(--line); background: var(--surface); color: var(--teal);
+  transition: border-color .15s ease;
+}
+.dl:hover { border-color: var(--teal); }
+.dl .sz { color: var(--muted); font-size: 12px; }
+
+/* ---------- Footer ---------- */
+footer { padding-block: 40px 56px; border-top: 1px solid var(--line); }
+.foot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; color: var(--muted); font-size: 14.5px; }
+.foot-grid p { max-width: 60ch; }
+.foot-grid strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+  position: fixed; inset: 0; z-index: 50; background: rgba(8, 16, 18, .86);
+  display: grid; place-items: start center; overflow-y: auto;
+  padding: calc(env(safe-area-inset-top, 0px) + 56px) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 24px) max(16px, env(safe-area-inset-left, 0px));
+}
+.lightbox img { width: min(935px, 100%); height: auto; border-radius: 4px; background: #FFFFFF; }
+.lightbox .close {
+  position: fixed; top: calc(env(safe-area-inset-top, 0px) + 12px); right: max(16px, env(safe-area-inset-right, 0px));
+  font-family: var(--mono); font-size: 13px; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .35); background: rgba(8, 16, 18, .6); color: #FFFFFF;
+}
+
+@media (max-width: 860px) {
+  .top-grid, .proj-grid, .foot-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sheet { position: static; max-width: 460px; }
+}
+@media (max-width: 480px) {
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .stat, .stat + .stat { padding: 12px 0; border-left: 0; }
+  .stat + .stat { border-top: 1px solid var(--line); }
+  .lede, .question { font-size: 16.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-grid">
+    <div>
+      <p class="eyebrow">Data Analyst · Office Administrator</p>
+      <h1>Michael Sillyman</h1>
+      <p class="lede">I turn messy operational data into decisions, working across SQL, spreadsheets, statistics and forecasting. These four projects follow a US pharmacy business from its sales records to the economy around it.</p>
+    </div>
+    <div class="toolkit">
+      <h2>Toolkit</h2>
+      <div class="tools">
+        <span class="tool">SQL</span>
+        <span class="tool">LibreOffice Calc</span>
+        <span class="tool">LibreOffice Writer</span>
+        <span class="tool">SPSS</span>
+        <span class="tool">Stata</span>
+        <span class="tool">EViews</span>
+        <span class="tool">Python</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="index wrap" aria-label="Projects">
+  <ol>
+    <li><a href="#sales"><span class="num">Project 1</span><span class="nm">Pharmacy Sales &amp; Inventory</span><span class="tl">SQL · Calc</span></a></li>
+    <li><a href="#cleaning"><span class="num">Project 2</span><span class="nm">Customer Data Cleaning</span><span class="tl">Calc · Python</span></a></li>
+    <li><a href="#survey"><span class="num">Project 3</span><span class="nm">Satisfaction Survey</span><span class="tl">Stata · SPSS</span></a></li>
+    <li><a href="#inflation"><span class="num">Project 4</span><span class="nm">US Inflation Forecast</span><span class="tl">EViews</span></a></li>
+  </ol>
+</nav>
+
+<main>
+  <!-- ================= Project 1 ================= -->
+  <section class="project" id="sales">
+    <div class="wrap proj-grid">
+      <div class="story">
+        <div class="label"><b>Project 1</b><span>SQL (SQLite) · LibreOffice Calc</span><span>15,084 transactions · 30 products</span></div>
+        <h2 class="pt">Pharmacy Sales &amp; Inventory Analysis</h2>
+        <p class="question"><span>Business question</span>Which products drive revenue and profit, how does demand move through the year, and where is stock running short or tying up cash?</p>
+        <div class="stats">
+          <div class="stat"><span class="v">$246.1K</span><span class="k">Revenue, 61.7% gross margin</span></div>
+          <div class="stat"><span class="v">5.4×</span><span class="k">Cold &amp; flu demand, December vs June</span></div>
+          <div class="stat"><span class="v">6</span><span class="k">Products below reorder level at year end</span></div>
+        </div>
+        <div>
+          <h3>What I did</h3>
+          <ol class="steps">
+            <li>Designed a three-table relational database (products, inventory, sales).</li>
+            <li>Ran SQL data-quality checks for invalid quantities, prices and orphan records.</li>
+            <li>Wrote 7 analysis queries: margins, top sellers, seasonality, days of stock cover, restock alerts.</li>
+            <li>Rebuilt the summaries in Calc with SUMIFS and COUNTIFS so they update when the data changes.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Key findings</h3>
+          <ul class="findings">
+            <li><strong>Demand is strongly seasonal.</strong> Allergy sales peak in May at 4.3× the January low; cold and flu peaks in December.</li>
+            <li><strong>Stock was short at the worst time.</strong> The cold and flu liquid sat at 14 units against a reorder level of 30, in peak flu season.</li>
+            <li><strong>$1,518 is tied up in slow movers,</strong> mostly medical devices; one item had over 2,000 days of cover.</li>
+          </ul>
+        </div>
+        <div class="downloads">
+          <a class="dl" href="files/Pharmacy_Sales_Analysis_Report.pdf" target="_blank" rel="noopener">Report (PDF) <span class="sz">124 KB</span></a>
+          <a class="dl" href="files/Pharmacy_Sales_Analysis_Project.zip" download>Data &amp; code (.zip) <span class="sz">1.1 MB</span></a>
+        </div>
+        <details class="code" id="code-sales">
+          <summary>SQL: days of stock cover</summary>
+<pre><span class="cm">-- Slow-moving stock: days of cover based on Oct–Dec sales</span>
+WITH recent AS (
+    SELECT product_id, SUM(quantity) / 92.0 AS avg_daily_units
+    FROM sales
+    WHERE sale_date BETWEEN '2025-10-01' AND '2025-12-31'
+    GROUP BY product_id
+)
+SELECT p.product_name,
+       i.stock_on_hand,
+       ROUND(i.stock_on_hand / NULLIF(r.avg_daily_units, 0), 0) AS days_of_cover,
+       ROUND(i.stock_on_hand * p.unit_cost, 0)                  AS stock_value_at_cost
+FROM inventory i
+JOIN products p ON p.product_id = i.product_id
+LEFT JOIN recent r ON r.product_id = i.product_id
+WHERE i.stock_on_hand / NULLIF(r.avg_daily_units, 0) &gt; 90
+ORDER BY days_of_cover DESC;</pre>
+        </details>
+      </div>
+      <figure class="sheet" style="margin:0">
+        <button type="button" data-full="img/p1.png" aria-label="Enlarge the Project 1 report"><img src="img/p1.png" alt="One-page report: Pharmacy Sales and Inventory Analysis 2025, with revenue figures, monthly and seasonal charts, findings and recommendations" loading="lazy" width="935" height="1210"></button>
+        <figcaption class="cap">One-page report · tap to enlarge</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= Project 2 ================= -->
+  <section class="project" id="cleaning">
+    <div class="wrap proj-grid">
+      <div class="story">
+        <div class="label"><b>Project 2</b><span>LibreOffice Calc · Python</span><span>1,215 raw rows · 3 store exports</span></div>
+        <h2 class="pt">Data Cleaning &amp; Validation</h2>
+        <p class="question"><span>Business question</span>Three stores merged their loyalty customer lists into one file. Can it be trusted for SMS marketing and for valuing outstanding points?</p>
+        <div class="stats">
+          <div class="stat"><span class="v">0.2% → 82%</span><span class="k">Rows passing every validation check</span></div>
+          <div class="stat"><span class="v">4,275</span><span class="k">Changes logged with before and after values</span></div>
+          <div class="stat"><span class="v">63</span><span class="k">Duplicate rows removed or merged</span></div>
+        </div>
+        <div>
+          <h3>What I did</h3>
+          <ol class="steps">
+            <li>Profiled the raw file with 11 validation checks written as Calc formulas.</li>
+            <li>Standardized names, emails, phone numbers, states, ZIP codes, dates and opt-in codes.</li>
+            <li>Removed exact duplicates and merged customers who had enrolled at two stores.</li>
+            <li>Re-ran the same checks and sent records the data could not fix to a staff follow-up list.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Key findings</h3>
+          <ul class="findings">
+            <li><strong>Only 2 of 1,215 rows met every standard.</strong> Most problems were format clashes between the three store systems.</li>
+            <li><strong>Blank SMS consent was treated as “No”.</strong> Texting without recorded consent creates legal risk under US telemarketing rules (TCPA).</li>
+            <li><strong>258 records need staff follow-up,</strong> such as missing emails or negative points balances.</li>
+          </ul>
+        </div>
+        <div class="downloads">
+          <a class="dl" href="files/Data_Cleaning_Report.pdf" target="_blank" rel="noopener">Report (PDF) <span class="sz">116 KB</span></a>
+          <a class="dl" href="files/Data_Cleaning_Project.zip" download>Data &amp; code (.zip) <span class="sz">830 KB</span></a>
+        </div>
+        <details class="code" id="code-cleaning">
+          <summary>Calc: validation formulas</summary>
+<pre><span class="cm">' Phone must read (XXX) XXX-XXXX → 0 = pass, 1 = fail</span>
+=IF(AND(LEN(F2)=14, MID(F2,1,1)="(", MID(F2,5,2)=") ",
+        MID(F2,10,1)="-"), 0, 1)
+
+<span class="cm">' State must exactly match the USPS code list (case-sensitive)</span>
+=IF(SUMPRODUCT(--EXACT('Rules &amp; Lookups'!$E$5:$E$6, H2))=0, 1, 0)
+
+<span class="cm">' Email: present, lowercase, and on a known domain</span>
+=IFERROR(IF(OR(E2="", NOT(EXACT(E2, LOWER(TRIM(E2)))),
+   COUNTIF(Domains, MID(E2, FIND("@",E2)+1, 99))=0), 1, 0), 1)</pre>
+        </details>
+      </div>
+      <figure class="sheet" style="margin:0">
+        <button type="button" data-full="img/p2.png" aria-label="Enlarge the Project 2 report"><img src="img/p2.png" alt="One-page report: Data Cleaning and Validation of a pharmacy loyalty customer list, with a before and after chart of validation failures" loading="lazy" width="935" height="1210"></button>
+        <figcaption class="cap">One-page report · tap to enlarge</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= Project 3 ================= -->
+  <section class="project" id="survey">
+    <div class="wrap proj-grid">
+      <div class="story">
+        <div class="label"><b>Project 3</b><span>Stata · SPSS</span><span>640 respondents · 3 stores</span></div>
+        <h2 class="pt">Customer Satisfaction Survey Analysis</h2>
+        <p class="question"><span>Business question</span>What drives customer satisfaction, and why does the Merrillville store get fewer recommendations?</p>
+        <div class="stats">
+          <div class="stat"><span class="v">−0.13</span><span class="k">Satisfaction points per extra minute of waiting</span></div>
+          <div class="stat"><span class="v">15.7 min</span><span class="k">Average wait at Merrillville, vs 9.9 at Highland</span></div>
+          <div class="stat"><span class="v">R² .33</span><span class="k">Multiple regression, N = 621</span></div>
+        </div>
+        <div>
+          <h3>What I did</h3>
+          <ol class="steps">
+            <li>Ran descriptive statistics and an independent-samples t-test.</li>
+            <li>Compared wait times across stores with a one-way ANOVA and Tukey post hoc tests.</li>
+            <li>Tested store against willingness to recommend with a chi-square test.</li>
+            <li>Built a multiple regression to separate the effects of wait time, service and store.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Key findings</h3>
+          <ul class="findings">
+            <li><strong>Wait time is the strongest single driver</strong> of satisfaction (r = −.42).</li>
+            <li><strong>Merrillville's problem is its wait, not its location.</strong> Its gap disappears once wait time is held constant (p = .89).</li>
+            <li><strong>Service adds on top.</strong> Each point of staff helpfulness adds 0.58 points; pharmacist counseling adds 0.48.</li>
+          </ul>
+        </div>
+        <div class="downloads">
+          <a class="dl" href="files/Satisfaction_Analysis_Report.pdf" target="_blank" rel="noopener">Report (PDF) <span class="sz">134 KB</span></a>
+          <a class="dl" href="files/Satisfaction_Analysis_Project.zip" download>Data &amp; code (.zip) <span class="sz">133 KB</span></a>
+        </div>
+        <details class="code" id="code-survey">
+          <summary>Stata: ANOVA and regression</summary>
+<pre><span class="cm">* One-way ANOVA with Tukey post hoc test</span>
+oneway wait_min store, tabulate
+pwmean wait_min, over(store) mcompare(tukey) effects
+
+<span class="cm">* Chi-square: does willingness to recommend depend on store?</span>
+tabulate store recommend, chi2 row V
+
+<span class="cm">* Multiple regression (Highland = base store)</span>
+regress satisfaction wait_min staff_help i.counseled ///
+        i.visit_type age i.store
+estat vif
+margins, at(wait_min=(5(5)25)) atmeans</pre>
+        </details>
+      </div>
+      <figure class="sheet" style="margin:0">
+        <button type="button" data-full="img/p3.png" aria-label="Enlarge the Project 3 report"><img src="img/p3.png" alt="One-page report: Customer Satisfaction Survey Analysis, with wait time by store, regression coefficients and a results table" loading="lazy" width="935" height="1210"></button>
+        <figcaption class="cap">One-page report · tap to enlarge</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= Project 4 ================= -->
+  <section class="project" id="inflation">
+    <div class="wrap proj-grid">
+      <div class="story">
+        <div class="label"><b>Project 4</b><span>EViews</span><span>BLS CPI-U · Jan 2014 – Sep 2026</span></div>
+        <h2 class="pt">US Inflation Forecast</h2>
+        <p class="question"><span>Business question</span>Where is US consumer price inflation headed over the next 12 months, and how far can a forecast be trusted?</p>
+        <div class="stats">
+          <div class="stat"><span class="v">3.7%</span><span class="k">CPI inflation, September 2026 (actual)</span></div>
+          <div class="stat"><span class="v">4.2%</span><span class="k">Forecast for September 2027</span></div>
+          <div class="stat"><span class="v">AR(7)</span><span class="k">Model chosen after diagnostic tests</span></div>
+        </div>
+        <div>
+          <h3>What I did</h3>
+          <ol class="steps">
+            <li>Used 153 months of official CPI data and filled the October 2025 gap left by the government shutdown.</li>
+            <li>Tested for stationarity with Augmented Dickey-Fuller tests.</li>
+            <li>Compared AR(1)–AR(12) models and rejected AR(1) because its residuals failed the Ljung-Box test.</li>
+            <li>Tested the model on two years of unseen data, then forecast 12 months ahead with 95% intervals.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Key findings</h3>
+          <ul class="findings">
+            <li><strong>Inflation is likely to stay well above the Fed's 2% target,</strong> between 3.6% and 4.7% through September 2027.</li>
+            <li><strong>The model beat both simple benchmarks</strong> on unseen data: 6% more accurate than assuming 2% inflation.</li>
+            <li><strong>Its main limit is shocks.</strong> Trained to 2024, it expected 2.8% by September 2026; the actual figure was 3.7%.</li>
+          </ul>
+        </div>
+        <div class="downloads">
+          <a class="dl" href="files/US_Inflation_Forecast_Report.pdf" target="_blank" rel="noopener">Report (PDF) <span class="sz">136 KB</span></a>
+          <a class="dl" href="files/US_Inflation_Forecast_Project.zip" download>Data &amp; code (.zip) <span class="sz">127 KB</span></a>
+        </div>
+        <details class="code" id="code-inflation">
+          <summary>EViews: model selection and forecast</summary>
+<pre><span class="cm">' Compare AR(1) to AR(12) on a common sample</span>
+smpl 2015m02 2026m09
+matrix(12, 3) m_criteria
+for !p = 1 to 12
+  equation eq_ar!p.ls infl c infl(-1 to -!p)
+  m_criteria(!p, 2) = eq_ar!p.@aic
+  m_criteria(!p, 3) = eq_ar!p.@schwarz
+next
+
+<span class="cm">' Final model, diagnostics and 12-month forecast</span>
+smpl 2014m01 2026m09
+equation eq_final.ls infl c infl(-1 to -7)
+freeze(t_q_final) eq_final.correl(12)
+smpl 2026m10 2027m09
+eq_final.forecast infl_f infl_f_se</pre>
+        </details>
+      </div>
+      <figure class="sheet" style="margin:0">
+        <button type="button" data-full="img/p4.png" aria-label="Enlarge the Project 4 report"><img src="img/p4.png" alt="One-page report: US Inflation Forecast October 2026 to September 2027, with a forecast chart, holdout test chart and results table" loading="lazy" width="935" height="1210"></button>
+        <figcaption class="cap">One-page report · tap to enlarge</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <p><strong>About the data.</strong> Projects 1–3 use simulated data built to reflect a 3-store US retail pharmacy group in Indiana and Illinois; contact details use reserved fictional values. Project 4 uses official Consumer Price Index data from the U.S. Bureau of Labor Statistics, via FRED.</p>
+    <p><strong>Files.</strong> Each project download includes its database or dataset, every query, formula and syntax file, a cleaning or results log, and a README explaining how to reproduce the work.</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Report, enlarged">
+  <button type="button" class="close" id="lb-close">Close ✕</button>
+  <img id="lb-img" alt="">
+</div>
+
+<script>
+(function () {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lb-img');
+  var closeBtn = document.getElementById('lb-close');
+  var lastBtn = null;
+  document.querySelectorAll('.sheet button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      lastBtn = b;
+      img.src = b.getAttribute('data-full');
+      img.alt = b.querySelector('img').alt;
+      lb.hidden = false;
+      lb.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    });
+  });
+  function close() {
+    lb.hidden = true;
+    document.body.style.overflow = '';
+    if (lastBtn) lastBtn.focus();
+  }
+  closeBtn.addEventListener('click', close);
+  lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) close(); });
+})();
+</script>
+</body>
+</html>
